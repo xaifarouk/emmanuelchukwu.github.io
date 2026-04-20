@@ -1,0 +1,52 @@
+baseURL = "https://xaitopia.github.io/"
+languageCode = "en-us"
+title = "Emmanuel Chukwu"
+theme = "PaperMod"
+paginate = 20
+
+[params]
+  author = "Emmanuel Chukwu"
+  description = "Writer. Novelist. Poet."
+  defaultTheme = "dark"
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = false
+
+[params.homeInfoParams]
+  Title = "Emmanuel Chukwu"
+  Content = "Nigerian writer of fiction, poetry, and essays on finance and culture."
+
+[[params.socialIcons]]
+  name = "email"
+  url = "mailto:xaitopia@gmail.com"
+
+[[params.socialIcons]]
+  name = "rss"
+  url = "https://mindcrafteduniverse.substack.com"
+
+[menu]
+  [[menu.main]]
+    identifier = "writing"
+    name = "Writing"
+    url = "/writing/"
+    weight = 10
+  [[menu.main]]
+    identifier = "fiction"
+    name = "Fiction"
+    url = "/fiction/"
+    weight = 20
+  [[menu.main]]
+    identifier = "poetry"
+    name = "Poetry"
+    url = "/poetry/"
+    weight = 30
+  [[menu.main]]
+    identifier = "newsletter"
+    name = "Newsletter"
+    url = "/newsletter/"
+    weight = 40
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 50
