@@ -1,0 +1,59 @@
+{{ define "main" }}
+<style>
+.writing-single{max-width:720px;margin:0 auto;padding:40px 0 80px}
+.writing-single-spine{height:4px;width:60px;border-radius:2px;margin-bottom:32px}
+.writing-single-tag{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#4a8cc9;margin-bottom:14px}
+.writing-single-title{font-family:'Playfair Display',serif;font-size:36px;line-height:1.25;color:#e8e4dc;margin-bottom:16px;font-weight:400}
+.writing-single-desc{font-size:16px;color:rgba(232,228,220,0.55);line-height:1.7;margin-bottom:24px;font-style:italic}
+.writing-single-meta{font-size:11px;color:rgba(232,228,220,0.3);border-bottom:0.5px solid rgba(255,255,255,0.07);padding-bottom:24px;margin-bottom:40px}
+.writing-single-meta span{color:rgba(74,140,201,0.7);margin-right:14px}
+.writing-single-body{font-size:17px;line-height:1.85;color:rgba(232,228,220,0.75)}
+.writing-single-body p{margin-bottom:1.5em}
+.writing-single-body h2{font-family:'Playfair Display',serif;font-size:24px;color:#e8e4dc;margin:2em 0 0.75em;font-weight:400}
+.writing-single-body h3{font-family:'Playfair Display',serif;font-size:20px;color:#e8e4dc;margin:1.75em 0 0.6em;font-weight:400}
+.writing-single-body blockquote{border-left:2px solid rgba(74,140,201,0.4);padding-left:20px;margin:2em 0;color:rgba(232,228,220,0.5);font-style:italic}
+.writing-single-body img{width:100%;border-radius:8px;margin:2em 0}
+.writing-single-body a{color:#4a8cc9;text-decoration:none;border-bottom:0.5px solid rgba(74,140,201,0.3)}
+.writing-single-body a:hover{border-bottom-color:rgba(74,140,201,0.8)}
+.writing-single-footer{margin-top:60px;padding-top:24px;border-top:0.5px solid rgba(255,255,255,0.07);display:flex;gap:8px;flex-wrap:wrap}
+.writing-single-footer a{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(74,140,201,0.6);border:0.5px solid rgba(74,140,201,0.2);border-radius:4px;padding:5px 10px;text-decoration:none;transition:border-color 0.2s}
+.writing-single-footer a:hover{border-color:rgba(74,140,201,0.5);color:rgba(74,140,201,0.9)}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:rgba(232,228,220,0.3);text-decoration:none;margin-bottom:40px;letter-spacing:0.05em;transition:color 0.2s}
+.back-link:hover{color:rgba(232,228,220,0.6)}
+.back-link::before{content:'←'}
+</style>
+
+<div class="writing-single">
+  <a class="back-link" href="/writing/">Writing</a>
+
+  {{ $colors := slice
+    "linear-gradient(90deg,#4a8cc9,#2d5fa0)"
+    "linear-gradient(90deg,#4a9c7c,#2d7a5a)"
+    "linear-gradient(90deg,#9c7c4a,#7a5a2d)"
+  }}
+  {{ $idx := mod .File.UniqueID 3 }}
+  <div class="writing-single-spine" style="background:{{ index $colors $idx }}"></div>
+
+  <div class="writing-single-tag">{{ if .Params.tags }}{{ index .Params.tags 0 }}{{ else }}Essay{{ end }}</div>
+  <h1 class="writing-single-title">{{ .Title }}</h1>
+  {{ with .Description }}<p class="writing-single-desc">{{ . }}</p>{{ end }}
+  <div class="writing-single-meta">
+    <span>{{ .Date.Format "January 2, 2006" }}</span>
+    {{ if .ReadingTime }}<span>{{ .ReadingTime }} min read</span>{{ end }}
+  </div>
+
+  {{ with .Params.cover }}{{ with .image }}
+  <img src="{{ . }}" alt="{{ $.Params.cover.alt }}" style="width:100%;border-radius:8px;margin-bottom:40px">
+  {{ end }}{{ end }}
+
+  <div class="writing-single-body">
+    {{ .Content }}
+  </div>
+
+  {{ with .Params.tags }}
+  <div class="writing-single-footer">
+    {{ range . }}<a href="/tags/{{ . | urlize }}">{{ . }}</a>{{ end }}
+  </div>
+  {{ end }}
+</div>
+{{ end }}

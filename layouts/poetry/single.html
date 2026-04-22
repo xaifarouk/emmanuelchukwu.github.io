@@ -1,0 +1,56 @@
+{{ define "main" }}
+<style>
+.poetry-single{max-width:640px;margin:0 auto;padding:40px 0 80px}
+.poetry-single-spine{height:4px;width:60px;border-radius:2px;margin-bottom:32px}
+.poetry-single-tag{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#9b6abf;margin-bottom:14px}
+.poetry-single-title{font-family:'Playfair Display',serif;font-size:36px;line-height:1.25;color:#e8e4dc;margin-bottom:16px;font-weight:400}
+.poetry-single-desc{font-size:15px;color:rgba(232,228,220,0.5);line-height:1.7;margin-bottom:24px;font-style:italic}
+.poetry-single-meta{font-size:11px;color:rgba(232,228,220,0.3);border-bottom:0.5px solid rgba(255,255,255,0.07);padding-bottom:24px;margin-bottom:48px}
+.poetry-single-meta span{color:rgba(155,106,191,0.7);margin-right:14px}
+.poetry-single-body{font-size:18px;line-height:2.1;color:rgba(232,228,220,0.8);font-family:'Playfair Display',serif;font-weight:400}
+.poetry-single-body p{margin-bottom:1.6em}
+.poetry-single-body img{width:100%;border-radius:8px;margin:2.5em 0;font-family:var(--font-sans)}
+.poetry-single-footer{margin-top:60px;padding-top:24px;border-top:0.5px solid rgba(255,255,255,0.07);display:flex;gap:8px;flex-wrap:wrap}
+.poetry-single-footer a{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(155,106,191,0.6);border:0.5px solid rgba(155,106,191,0.2);border-radius:4px;padding:5px 10px;text-decoration:none;transition:border-color 0.2s}
+.poetry-single-footer a:hover{border-color:rgba(155,106,191,0.5);color:rgba(155,106,191,0.9)}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:rgba(232,228,220,0.3);text-decoration:none;margin-bottom:40px;letter-spacing:0.05em;transition:color 0.2s}
+.back-link:hover{color:rgba(232,228,220,0.6)}
+.back-link::before{content:'←'}
+</style>
+
+<div class="poetry-single">
+  <a class="back-link" href="/poetry/">Poetry</a>
+
+  {{ $colors := slice
+    "linear-gradient(90deg,#9b6abf,#7a3da0)"
+    "linear-gradient(90deg,#bf6a8c,#a03d5a)"
+    "linear-gradient(90deg,#6a7cbf,#3d4fa0)"
+    "linear-gradient(90deg,#bf9b6a,#a07a3d)"
+    "linear-gradient(90deg,#6abfb0,#3da090)"
+  }}
+  {{ $idx := mod .File.UniqueID 5 }}
+  <div class="poetry-single-spine" style="background:{{ index $colors $idx }}"></div>
+
+  <div class="poetry-single-tag">{{ if .Params.tags }}{{ index .Params.tags 0 }}{{ else }}Poem{{ end }}</div>
+  <h1 class="poetry-single-title">{{ .Title }}</h1>
+  {{ with .Description }}<p class="poetry-single-desc">{{ . }}</p>{{ end }}
+  <div class="poetry-single-meta">
+    <span>{{ .Date.Format "2006" }}</span>
+    {{ with .Params.author }}<span>{{ . }}</span>{{ end }}
+  </div>
+
+  {{ with .Params.cover }}{{ with .image }}
+  <img src="{{ . }}" alt="{{ $.Params.cover.alt }}" style="width:100%;border-radius:8px;margin-bottom:48px">
+  {{ end }}{{ end }}
+
+  <div class="poetry-single-body">
+    {{ .Content }}
+  </div>
+
+  {{ with .Params.tags }}
+  <div class="poetry-single-footer">
+    {{ range . }}<a href="/tags/{{ . | urlize }}">{{ . }}</a>{{ end }}
+  </div>
+  {{ end }}
+</div>
+{{ end }}
