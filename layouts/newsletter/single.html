@@ -45,7 +45,6 @@
 
   <div class="divider"></div>
   <div class="section-label">Recent issues</div>
-
   <div id="nl-posts"><div class="nl-loading">Loading recent posts...</div></div>
 
   <a class="nl-footer" href="https://mindcrafteduniverse.substack.com" target="_blank">
@@ -58,47 +57,82 @@
 </div>
 
 <script>
-const spines = [
+var spines = [
   "linear-gradient(180deg,#4a8cc9,#2d5fa0)",
   "linear-gradient(180deg,#4a9c7c,#2d7a5a)",
   "linear-gradient(180deg,#9c7c4a,#7a5a2d)"
 ];
 
 function formatDate(dateStr) {
-  const d = new Date(dateStr);
+  var d = new Date(dateStr);
   return d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
 }
 
 function stripHtml(html) {
-  const tmp = document.createElement('div');
+  var tmp = document.createElement('div');
   tmp.innerHTML = html;
-  const text = tmp.textContent || tmp.innerText || '';
-  return text.replace(/\s+/g, ' ').trim().slice(0, 160) + (text.length > 160 ? '...' : '');
+  var text = (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+  return text.length > 180 ? text.slice(0, 180) + '...' : text;
 }
 
-fetch('https://api.rss2json.com/v1/api.json?rss_url=https://mindcrafteduniverse.substack.com/feed&count=3')
-  .then(r => r.json())
-  .then(data => {
-    const container = document.getElementById('nl-posts');
-    if (!data.items || data.items.length === 0) {
-      container.innerHTML = '<div class="nl-error">No posts found. Visit Substack to read the latest.</div>';
-      return;
-    }
-    container.innerHTML = data.items.map((item, i) => `
-      <a class="nl-issue" href="${item.link}" target="_blank">
-        <div class="nl-issue-spine" style="background:${spines[i % 3]}"></div>
-        <div class="nl-issue-body">
-          <div class="nl-issue-meta">${formatDate(item.pubDate)}</div>
-          <div class="nl-issue-title">${item.title}</div>
-          <div class="nl-issue-desc">${stripHtml(item.description)}</div>
-          <span class="nl-arrow">Read on Substack →</span>
-        </div>
-      </a>
-    `).join('');
-  })
-  .catch(() => {
-    document.getElementById('nl-posts').innerHTML =
-      '<div class="nl-error">Could not load recent posts. <a href="https://mindcrafteduniverse.substack.com" target="_blank" style="color:rgba(74,140,201,0.6)">Visit Substack</a> to read the latest.</div>';
-  });
+function renderPosts(items) {
+  var container = document.getElementById('nl-posts');
+  if (!items || items.length === 0) {
+    showError();
+    return;
+  }
+  container.innerHTML = items.slice(0, 3).map(function(item, i) {
+    return '<a class="nl-issue" href="' + item.link + '" target="_blank" rel="noopener">' +
+      '<div class="nl-issue-spine" style="background:' + spines[i % 3] + '"></div>' +
+      '<div class="nl-issue-body">' +
+        '<div class="nl-issue-meta">' + formatDate(item.pubDate) + '</div>' +
+        '<div class="nl-issue-title">' + item.title + '</div>' +
+        '<div class="nl-issue-desc">' + stripHtml(item.description || '') + '</div>' +
+        '<span class="nl-arrow">Read on Substack →</span>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+}
+
+function showError() {
+  document.getElementById('nl-posts').innerHTML =
+    '<div class="nl-error">Could not load recent posts automatically. <a href="https://mindcrafteduniverse.substack.com" target="_blank" style="color:rgba(74,140,201,0.6)">Visit Substack</a> to read the latest.</div>';
+}
+
+/* Method 1: fetch RSS directly and parse XML */
+function fetchDirect() {
+  return fetch('https://mindcrafteduniverse.substack.com/feed')
+    .then(function(r) { return r.text(); })
+    .then(function(str) {
+      var xml = new DOMParser().parseFromString(str, 'text/xml');
+      var nodes = xml.querySelectorAll('item');
+      if (!nodes.length) throw new Error('empty');
+      var items = Array.from(nodes).slice(0, 3).map(function(node) {
+        var linkNode = node.querySelector('link');
+        var link = linkNode ? (linkNode.textContent || linkNode.nextSibling && linkNode.nextSibling.nodeValue || '') : '';
+        return {
+          title: (node.querySelector('title') || {}).textContent || '',
+          link: link.trim(),
+          pubDate: (node.querySelector('pubDate') || {}).textContent || '',
+          description: (node.querySelector('description') || {}).textContent || ''
+        };
+      });
+      renderPosts(items);
+    });
+}
+
+/* Method 2: rss2json proxy fallback */
+function fetchViaProxy() {
+  return fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmindcrafteduniverse.substack.com%2Ffeed&count=3')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.items || data.items.length === 0) throw new Error('empty');
+      renderPosts(data.items);
+    });
+}
+
+fetchDirect().catch(function() {
+  fetchViaProxy().catch(showError);
+});
 </script>
 {{ end }}
