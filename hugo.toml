@@ -2,22 +2,20 @@ baseURL = "https://xaitopia.github.io/"
 languageCode = "en-us"
 title = "Emmanuel Chukwu"
 theme = "PaperMod"
-
 [pagination]
   pagerSize = 20
 
 [params]
   author = "Emmanuel Chukwu"
-  description = "Financial Writer & Technical Content Strategist — Bridging the gap between technical market data and institutional-grade editorial content."
+  description = "Writer. Novelist. Poet."
   defaultTheme = "dark"
   ShowReadingTime = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = false
-  disableHLJS = true
 
 [params.homeInfoParams]
   Title = "Emmanuel Chukwu"
-  Content = "Financial Writer & Technical Content Strategist"
+  Content = "Nigerian writer of fiction, poetry, and essays on finance and culture."
 
 [[params.socialIcons]]
   name = "email"
@@ -30,35 +28,24 @@ theme = "PaperMod"
 [menu]
   [[menu.main]]
     identifier = "writing"
-    name = "Financial Writing"
+    name = "Writing"
     url = "/writing/"
     weight = 10
-
-  [[menu.main]]
-    identifier = "creative"
-    name = "Creative Work"
-    weight = 30
-
   [[menu.main]]
     identifier = "fiction"
     name = "Fiction"
     url = "/fiction/"
-    weight = 10
-    parent = "creative"
-
+    weight = 20
   [[menu.main]]
     identifier = "poetry"
     name = "Poetry"
     url = "/poetry/"
-    weight = 20
-    parent = "creative"
-
+    weight = 30
   [[menu.main]]
     identifier = "newsletter"
     name = "Newsletter"
     url = "/newsletter/"
     weight = 40
-
   [[menu.main]]
     identifier = "about"
     name = "About"
