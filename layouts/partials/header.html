@@ -1,0 +1,71 @@
+<header class="header">
+<nav class="nav">
+  <a class="brand" href="{{ "" | absLangURL }}">
+    <span class="brand-main">Xaitopia Research</span>
+    <span class="brand-sub">Emmanuel Chukwu</span>
+  </a>
+  <div class="nav-links">
+    {{- range site.Menus.main }}
+      {{- if .HasChildren }}
+      <div class="nav-dropdown">
+        <button class="nav-dd-btn" aria-expanded="false">
+          {{- .Name }}<span class="nav-dd-arrow">▾</span>
+        </button>
+        <div class="nav-dd-menu">
+          {{- range .Children }}
+          <a href="{{ .URL }}" class="nav-dd-item">{{ .Name }}</a>
+          {{- end }}
+        </div>
+      </div>
+      {{- else }}
+      <a href="{{ .URL }}"
+        {{- if (findRE `^/` .URL) }}
+        {{- if eq .URL $.URL }} aria-current="page"{{end}}
+        {{- end }}>{{ .Name }}</a>
+      {{- end }}
+    {{- end }}
+  </div>
+</nav>
+</header>
+
+<style>
+.header{padding:14px 40px;border-bottom:0.5px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:100;background:#111}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto}
+.brand{text-decoration:none;display:flex;flex-direction:column;gap:1px}
+.brand-main{font-size:15px;font-weight:500;color:#e8e4dc;letter-spacing:0.01em;line-height:1.2}
+.brand-sub{font-size:10px;color:rgba(232,228,220,0.3);letter-spacing:0.02em}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{font-size:13px;color:rgba(232,228,220,0.48);text-decoration:none;letter-spacing:0.03em;padding:6px 10px;border-radius:5px;transition:color 0.2s}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:#e8e4dc}
+.nav-dropdown{position:relative}
+.nav-dd-btn{font-size:13px;color:rgba(232,228,220,0.48);background:transparent;border:none;cursor:pointer;letter-spacing:0.03em;padding:6px 10px;border-radius:5px;display:flex;align-items:center;gap:4px;font-family:inherit;transition:color 0.2s}
+.nav-dd-btn:hover{color:#e8e4dc}
+.nav-dd-arrow{font-size:9px;transition:transform 0.18s}
+.nav-dd-btn[aria-expanded="true"] .nav-dd-arrow{transform:rotate(180deg)}
+.nav-dd-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px;min-width:150px;box-shadow:0 8px 24px rgba(0,0,0,0.5)}
+.nav-dd-menu.open{display:block}
+.nav-dd-item{display:block;font-size:13px;color:rgba(232,228,220,0.52);text-decoration:none;padding:8px 12px;border-radius:5px;letter-spacing:0.03em;transition:all 0.15s}
+.nav-dd-item:hover{background:rgba(255,255,255,0.05);color:#e8e4dc}
+@media(max-width:600px){
+  .header{padding:12px 20px}
+  .nav-links a,.nav-dd-btn{font-size:12px;padding:5px 7px}
+}
+</style>
+
+<script>
+document.querySelectorAll('.nav-dropdown').forEach(function(d){
+  var btn=d.querySelector('.nav-dd-btn');
+  var menu=d.querySelector('.nav-dd-menu');
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var open=menu.classList.contains('open');
+    document.querySelectorAll('.nav-dd-menu').forEach(function(m){m.classList.remove('open')});
+    document.querySelectorAll('.nav-dd-btn').forEach(function(b){b.setAttribute('aria-expanded','false')});
+    if(!open){menu.classList.add('open');btn.setAttribute('aria-expanded','true')}
+  });
+});
+document.addEventListener('click',function(){
+  document.querySelectorAll('.nav-dd-menu').forEach(function(m){m.classList.remove('open')});
+  document.querySelectorAll('.nav-dd-btn').forEach(function(b){b.setAttribute('aria-expanded','false')});
+});
+</script>
