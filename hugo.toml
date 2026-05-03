@@ -36,9 +36,47 @@ theme = "PaperMod"
     weight = 10
 
   [[menu.main]]
+    identifier = "research"
+    name = "Research & Intelligence"
+    weight = 20
+
+  [[menu.main]]
+    identifier = "market-intelligence"
+    name = "Bi-Weekly Market Intelligence"
+    url = "/research/market-intelligence/"
+    weight = 10
+    parent = "research"
+
+  [[menu.main]]
+    identifier = "macro-analysis"
+    name = "Macro & Data Analysis"
+    url = "/research/macro-analysis/"
+    weight = 20
+    parent = "research"
+
+  [[menu.main]]
+    identifier = "quant"
+    name = "Quantitative Models"
+    weight = 30
+
+  [[menu.main]]
+    identifier = "tradingview"
+    name = "TradingView — Pine Script"
+    url = "/quant/tradingview/"
+    weight = 10
+    parent = "quant"
+
+  [[menu.main]]
+    identifier = "mql5"
+    name = "MetaTrader — MQL5"
+    url = "/quant/mql5/"
+    weight = 20
+    parent = "quant"
+
+  [[menu.main]]
     identifier = "creative"
     name = "Creative Work"
-    weight = 20
+    weight = 40
 
   [[menu.main]]
     identifier = "fiction"
@@ -58,10 +96,10 @@ theme = "PaperMod"
     identifier = "newsletter"
     name = "Newsletter"
     url = "/newsletter/"
-    weight = 30
+    weight = 50
 
   [[menu.main]]
     identifier = "about"
     name = "About"
     url = "/about/"
-    weight = 40
+    weight = 60
