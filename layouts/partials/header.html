@@ -1,17 +1,16 @@
 <header class="header">
 <nav class="nav">
-  <div class="nav-top">
-    <a class="brand" href="{{ "" | absLangURL }}">
-      <img class="brand-mark" src="/logo.png" alt="Xaitopia Research">
-      <div class="brand-text">
-        <span class="brand-main">Xaitopia Research</span>
-        <span class="brand-sub">Emmanuel Chukwu</span>
-      </div>
-    </a>
-    <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileMenu()">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+  <a class="brand" href="{{ "" | absLangURL }}">
+    <img class="brand-mark" src="/logo.png" alt="Xaitopia Research">
+    <div class="brand-text">
+      <span class="brand-main">Xaitopia Research</span>
+      <span class="brand-sub">Emmanuel Chukwu</span>
+    </div>
+  </a>
+
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
 
   <div class="nav-links" id="nav-links">
     {{- range site.Menus.main }}
@@ -22,9 +21,7 @@
         </button>
         <div class="nav-dd-menu">
           {{- range .Children }}
-          <a href="{{ .URL }}" class="nav-dd-item">
-            <span class="nav-dd-item-name">{{ .Name }}</span>
-          </a>
+          <a href="{{ .URL }}" class="nav-dd-item">{{ .Name }}</a>
           {{- end }}
         </div>
       </div>
@@ -40,20 +37,14 @@
 </header>
 
 <style>
-.header{padding:14px 40px;border-bottom:0.5px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:100;background:#111}
-.nav{max-width:1100px;margin:0 auto}
-.nav-top{display:flex;justify-content:space-between;align-items:center}
-.brand{text-decoration:none;display:flex;align-items:center;gap:10px}
-.brand-mark{width:36px;height:36px;object-fit:contain;flex-shrink:0;display:block}
+.header{padding:0 40px;border-bottom:0.5px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:100;background:#111}
+.nav{max-width:1100px;margin:0 auto;height:64px;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:16px}
+.brand{text-decoration:none;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.brand-mark{width:36px;height:36px;object-fit:contain;display:block;flex-shrink:0}
 .brand-text{display:flex;flex-direction:column;gap:1px}
-.brand-main{font-size:15px;font-weight:500;color:#e8e4dc;letter-spacing:0.01em;line-height:1.2}
-.brand-sub{font-size:10px;color:rgba(232,228,220,0.28);letter-spacing:0.02em}
-.nav-burger{display:none;flex-direction:column;gap:5px;background:transparent;border:none;cursor:pointer;padding:4px}
-.nav-burger span{display:block;width:22px;height:1.5px;background:rgba(232,228,220,0.55);border-radius:2px;transition:all 0.2s}
-.nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-.nav-burger.open span:nth-child(2){opacity:0}
-.nav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.brand-main{font-size:15px;font-weight:500;color:#e8e4dc;letter-spacing:0.01em;line-height:1.2;white-space:nowrap}
+.brand-sub{font-size:10px;color:rgba(232,228,220,0.28);letter-spacing:0.02em;white-space:nowrap}
+.nav-links{display:flex;flex-direction:row;align-items:center;gap:2px;margin-left:auto}
 .nav-links a{font-size:13px;color:rgba(232,228,220,0.48);text-decoration:none;letter-spacing:0.02em;padding:6px 10px;border-radius:5px;transition:color 0.2s;white-space:nowrap}
 .nav-links a:hover,.nav-links a[aria-current="page"]{color:#e8e4dc}
 .nav-dropdown{position:relative}
@@ -64,14 +55,17 @@
 .nav-dd-btn[aria-expanded="true"] .nav-dd-arrow{transform:rotate(180deg)}
 .nav-dd-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:6px;min-width:240px;box-shadow:0 12px 32px rgba(0,0,0,0.6);z-index:200}
 .nav-dd-menu.open{display:block}
-.nav-dd-item{display:block;padding:10px 12px;border-radius:7px;text-decoration:none;transition:background 0.15s}
+.nav-dd-item{display:block;padding:10px 12px;border-radius:7px;text-decoration:none;font-size:12px;color:#e8e4dc;transition:background 0.15s}
 .nav-dd-item:hover{background:rgba(255,255,255,0.05)}
-.nav-dd-item-name{font-size:12px;color:#e8e4dc;display:block;margin-bottom:2px}
-.nav-dd-item-desc{font-size:11px;color:rgba(232,228,220,0.35);line-height:1.4;display:block}
-.nav-dd-sep{height:0.5px;background:rgba(255,255,255,0.07);margin:4px 0}
+.nav-burger{display:none;flex-direction:column;gap:5px;background:transparent;border:none;cursor:pointer;padding:4px;flex-shrink:0}
+.nav-burger span{display:block;width:22px;height:1.5px;background:rgba(232,228,220,0.55);border-radius:2px;transition:all 0.2s}
+.nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
 @media(max-width:900px){
-  .header{padding:13px 20px}
+  .header{padding:0 20px}
+  .nav{height:56px;flex-wrap:wrap;height:auto;padding:12px 0}
   .brand-sub{display:none}
   .nav-burger{display:flex}
   .nav-links{
@@ -79,43 +73,18 @@
     flex-direction:column;
     align-items:stretch;
     gap:0;
+    width:100%;
+    margin-left:0;
     border-top:0.5px solid rgba(255,255,255,0.07);
-    margin-top:12px;
     padding-top:8px;
+    margin-top:8px;
   }
   .nav-links.open{display:flex}
-  .nav-links a{
-    font-size:14px;
-    padding:11px 4px;
-    border-radius:0;
-    border-bottom:0.5px solid rgba(255,255,255,0.05);
-    color:rgba(232,228,220,0.65);
-  }
-  .nav-links a:last-of-type{border-bottom:none}
+  .nav-links a{font-size:14px;padding:11px 4px;border-radius:0;border-bottom:0.5px solid rgba(255,255,255,0.05);color:rgba(232,228,220,0.65)}
   .nav-dropdown{width:100%}
-  .nav-dd-btn{
-    font-size:14px;
-    padding:11px 4px;
-    width:100%;
-    justify-content:space-between;
-    border-radius:0;
-    border-bottom:0.5px solid rgba(255,255,255,0.05);
-    color:rgba(232,228,220,0.65);
-  }
-  .nav-dd-menu{
-    position:static;
-    box-shadow:none;
-    background:rgba(255,255,255,0.03);
-    border:none;
-    border-left:2px solid rgba(201,168,76,0.2);
-    border-radius:0;
-    padding:4px 0 4px 12px;
-    margin:0;
-    min-width:0;
-  }
-  .nav-dd-item{padding:8px 8px;border-radius:5px}
-  .nav-dd-item-name{font-size:13px}
-  .nav-dd-sep{margin:2px 0}
+  .nav-dd-btn{font-size:14px;padding:11px 4px;width:100%;justify-content:space-between;border-radius:0;border-bottom:0.5px solid rgba(255,255,255,0.05);color:rgba(232,228,220,0.65)}
+  .nav-dd-menu{position:static;box-shadow:none;background:rgba(255,255,255,0.03);border:none;border-left:2px solid rgba(201,168,76,0.2);border-radius:0;padding:4px 0 4px 12px;min-width:0}
+  .nav-dd-item{padding:8px 8px;border-radius:5px;font-size:13px}
 }
 </style>
 
@@ -132,7 +101,6 @@ function toggleMobileMenu(){
     document.querySelectorAll('.nav-dd-btn').forEach(function(b){b.setAttribute('aria-expanded','false')});
   }
 }
-
 document.querySelectorAll('.nav-dropdown').forEach(function(d){
   var btn=d.querySelector('.nav-dd-btn');
   var menu=d.querySelector('.nav-dd-menu');
@@ -147,7 +115,6 @@ document.querySelectorAll('.nav-dropdown').forEach(function(d){
     else{menu.classList.remove('open');btn.setAttribute('aria-expanded','false')}
   });
 });
-
 document.addEventListener('click',function(){
   if(window.innerWidth>900){
     document.querySelectorAll('.nav-dd-menu').forEach(function(m){m.classList.remove('open')});
